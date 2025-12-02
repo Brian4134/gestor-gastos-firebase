@@ -165,6 +165,34 @@ Para desarrollo local:
 4. Inicia el servidor: `npm start`
 5. Abre `http://localhost:3000` en tu navegador
 
+## 📱 Generación de APK
+
+Para generar un APK de la aplicación móvil:
+
+```bash
+# Opción 1: Script automático (Windows)
+./generate-apk.bat
+
+# Opción 2: Script automático (Linux/Mac)
+./generate-apk.sh
+
+# Opción 3: Manual
+npm run build
+npx cap init "Gestor de Gastos" "com.gestorgastos.app" --web-dir=www
+npx cap add android
+npx cap sync
+cd android && ./gradlew assembleDebug
+```
+
+**Requisitos:**
+- Android Studio con SDK configurado
+- JDK 11 o superior
+- Variables de entorno ANDROID_HOME y JAVA_HOME
+
+Ver [APK_GENERATION.md](APK_GENERATION.md) para instrucciones detalladas.
+
 ## 📞 Soporte
 
 Si tienes problemas con la configuración de Firebase, consulta la [documentación oficial](https://firebase.google.com/docs/admin/setup).
+
+Para problemas con la generación de APK, consulta [APK_GENERATION.md](APK_GENERATION.md).

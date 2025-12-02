@@ -25,7 +25,22 @@ body {
 .navbar {
   background: linear-gradient(135deg, var(--primary-color) 0%, #1d4ed8 100%) !important;
   box-shadow: var(--box-shadow);
-  padding: 1rem 0;
+  padding: 0.75rem 0;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem 0;
+  }
+  
+  .navbar-collapse {
+    margin-top: 0.5rem;
+  }
+  
+  .navbar-nav .nav-link {
+    padding: 0.5rem 0;
+    text-align: center;
+  }
 }
 
 .navbar-brand {
@@ -203,6 +218,11 @@ body {
   color: var(--info-color);
 }
 
+.dashboard-icon.warning {
+  background: rgba(217, 119, 6, 0.1);
+  color: var(--warning-color);
+}
+
 /* ===== ALERTAS ===== */
 .alert {
   border: none;
@@ -243,6 +263,52 @@ body {
 }
 
 /* ===== RESPONSIVE ===== */
+@media (max-width: 576px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .btn-group .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+  }
+  
+  .dashboard-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+  
+  .table td, .table th {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.85rem;
+  }
+  
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 0 1rem;
@@ -259,6 +325,17 @@ body {
   .btn {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
+  }
+  
+  .row.g-4 {
+    --bs-gutter-x: 1rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboard-icon {
+    width: 55px;
+    height: 55px;
   }
 }
 

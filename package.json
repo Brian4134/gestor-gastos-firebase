@@ -6,7 +6,16 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo 'Build complete'",
+    "vercel-build": "echo 'Vercel build complete'",
     "migrate": "node migrate-data.js"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^5.7.8",
+    "@capacitor/cli": "^5.7.8",
+    "@capacitor/core": "^5.7.8",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -17,6 +26,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.2",
     "firebase-admin": "^12.0.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "qrcode": "^1.5.4"
   }
 }

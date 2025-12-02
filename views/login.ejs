@@ -106,7 +106,10 @@
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card login-card">
             <div class="card-header-custom">
-                <h3 class="mb-1 fw-bold text-dark">Bienvenido</h3>
+                <div class="mb-3">
+                    <img src="/images/logo.svg" alt="Gestor de Gastos" style="width: 80px; height: 80px;">
+                </div>
+                <h3 class="mb-1 fw-bold text-dark">Gestor de Gastos</h3>
                 <p class="text-muted small mb-0">Ingresa a tu cuenta para continuar</p>
             </div>
 
@@ -146,10 +149,17 @@
                             <span>Google</span>
                         </button>
 
-                        <p class="text-center mb-0 text-muted small">
-                            ¿No tienes cuenta?
-                            <a href="/register" class="text-decoration-none fw-bold">Crear cuenta</a>
-                        </p>
+                        <div class="text-center">
+                            <p class="mb-2 text-muted small">
+                                ¿No tienes cuenta?
+                                <a href="/register" class="text-decoration-none fw-bold">Crear cuenta</a>
+                            </p>
+                            <p class="mb-0 text-muted small">
+                                <a href="/qr" class="text-decoration-none">
+                                    <i class="bi bi-qr-code me-1"></i>Generar código QR
+                                </a>
+                            </p>
+                        </div>
             </div>
         </div>
     </div>

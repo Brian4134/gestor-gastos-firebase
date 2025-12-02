@@ -44,6 +44,32 @@ router.get("/editar/:id", validarLogin, soloUsuario, mostrarFormularioEditar);
 router.post("/editar/:id", validarLogin, soloUsuario, actualizarGasto);
 router.post("/eliminar/:id", validarLogin, soloUsuario, eliminarGasto);
 
+// QR CODE
+router.get("/qr", async (req, res) => {
+    try {
+        const QRCode = await import('qrcode');
+        const url = `${req.protocol}://${req.get('host')}/login`;
+        const qrDataUrl = await QRCode.default.toDataURL(url);
+        res.render('qr', { qrDataUrl, url });
+    } catch (err) {
+        console.error('Error generando QR:', err);
+        res.status(500).send('Error generando QR');
+    }
+});
+
+// DEPLOY PAGE
+router.get("/deploy", async (req, res) => {
+    try {
+        const QRCode = await import('qrcode');
+        const url = `${req.protocol}://${req.get('host')}`;
+        const qrDataUrl = await QRCode.default.toDataURL(url);
+        res.render('deploy', { qrDataUrl, url });
+    } catch (err) {
+        console.error('Error generando QR:', err);
+        res.status(500).send('Error generando QR');
+    }
+});
+
 // LOGOUT
 router.get("/logout", (req, res) => {
     req.session.destroy((err) => {
