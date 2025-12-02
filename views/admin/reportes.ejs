@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container mt-4">
+    <h2><i class="bi bi-graph-up-arrow me-2"></i>Reportes Generales del Sistema</h2>
+    
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body text-center">
+                    <h3><%= stats.totalUsuarios || 0 %></h3>
+                    <p class="mb-0">Total Usuarios</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body text-center">
+                    <h3><%= stats.totalTransacciones || 0 %></h3>
+                    <p class="mb-0">Total Transacciones</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body text-center">
+                    <h3>S/ <%= (stats.totalIngresos || 0).toFixed(2) %></h3>
+                    <p class="mb-0">Total Ingresos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body text-center">
+                    <h3>S/ <%= (stats.totalGastos || 0).toFixed(2) %></h3>
+                    <p class="mb-0">Total Gastos</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h5>Estadísticas del Sistema</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Usuarios Activos:</strong> <%= usuarios %></p>
+            <p><strong>Balance General:</strong> S/ <%= ((stats.totalIngresos || 0) - (stats.totalGastos || 0)).toFixed(2) %></p>
+            <p><strong>Promedio por Usuario:</strong> S/ <%= usuarios > 0 ? (((stats.totalIngresos || 0) - (stats.totalGastos || 0)) / usuarios).toFixed(2) : '0.00' %></p>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .login-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .card-header-custom {
+            background: #fff;
+            padding: 2rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .card-body-custom {
+            padding: 2rem;
+            background: #fff;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #e1e1e1;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+            border-color: #0d6efd;
+            background-color: #fff;
+        }
+
+        .btn-primary {
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+        }
+
+        .google-btn {
+            background-color: #fff;
+            border: 1px solid #dadce0;
+            color: #3c4043;
+            border-radius: 8px;
+            padding: 10px;
+            font-weight: 500;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .google-btn:hover {
+            background-color: #f8f9fa;
+            border-color: #d2e3fc;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            color: #3c4043;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #888;
+        }
+
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .separator:not(:empty)::before {
+            margin-right: .5em;
+        }
+
+        .separator:not(:empty)::after {
+            margin-left: .5em;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card login-card">
+            <div class="card-header-custom">
+                <h3 class="mb-1 fw-bold text-dark">Bienvenido</h3>
+                <p class="text-muted small mb-0">Ingresa a tu cuenta para continuar</p>
+            </div>
+
+            <div class="card-body-custom">
+                <% if (typeof error !=='undefined' && error && error.length> 0) { %>
+                    <div class="alert alert-danger border-0 shadow-sm rounded-3 mb-4" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>
+                        <%= error %>
+                    </div>
+                    <% } %>
+
+                        <form action="/login" method="POST">
+                            <div class="mb-3">
+                                <label class="form-label text-secondary small fw-bold text-uppercase">Correo
+                                    Electrónico</label>
+                                <input type="text" name="usuario" required class="form-control"
+                                    placeholder="nombre@ejemplo.com" />
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label text-secondary small fw-bold text-uppercase">Contraseña</label>
+                                <input type="password" name="password" required class="form-control"
+                                    placeholder="••••••••" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 mb-3">
+                                Ingresar
+                            </button>
+                        </form>
+
+                        <div class="separator small text-uppercase">o continúa con</div>
+
+                        <button id="google-login-btn"
+                            class="btn google-btn w-100 d-flex align-items-center justify-content-center mb-4">
+                            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                                style="width: 20px; height: 20px; margin-right: 12px;">
+                            <span>Google</span>
+                        </button>
+
+                        <p class="text-center mb-0 text-muted small">
+                            ¿No tienes cuenta?
+                            <a href="/register" class="text-decoration-none fw-bold">Crear cuenta</a>
+                        </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // Configuración de Firebase desde el servidor
+        const firebaseConfig = <%- JSON.stringify(firebaseConfig) %>;
+
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        const googleLoginBtn = document.getElementById('google-login-btn');
+
+        if (googleLoginBtn) {
+            googleLoginBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                try {
+                    // Mostrar indicador de carga
+                    googleLoginBtn.disabled = true;
+                    googleLoginBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Conectando...';
+                    
+                    const result = await signInWithPopup(auth, provider);
+                    const user = result.user;
+                    const idToken = await user.getIdToken();
+
+                    // Enviar token al backend
+                    const response = await fetch('/auth/google', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ idToken })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        window.location.href = data.redirect;
+                    } else {
+                        throw new Error(data.error || 'Error desconocido');
+                    }
+                } catch (error) {
+                    console.error("Error en login con Google:", error);
+                    
+                    // Mostrar error
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'alert alert-danger border-0 shadow-sm rounded-3 mt-3';
+                    errorDiv.innerHTML = `<i class="bi bi-exclamation-circle me-2"></i>${error.message}`;
+                    
+                    const existingError = document.querySelector('.alert-danger');
+                    if (existingError && existingError !== errorDiv) {
+                        existingError.remove();
+                    }
+                    
+                    googleLoginBtn.parentElement.appendChild(errorDiv);
+                    
+                    // Restaurar botón
+                    googleLoginBtn.disabled = false;
+                    googleLoginBtn.innerHTML = `
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                             style="width: 20px; height: 20px; margin-right: 12px;">
+                        <span>Google</span>
+                    `;
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

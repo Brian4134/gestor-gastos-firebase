@@ -1,0 +1,23 @@
+# Archivos de configuración sensibles
+.env
+firebase-credentials.json
+
+# Dependencias
+node_modules/
+npm-debug.log*
+
+# Archivos temporales
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo

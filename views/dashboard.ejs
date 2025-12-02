@@ -1,0 +1,82 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container mt-4 fade-in">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-center mb-2">
+                <i class="bi bi-speedometer2 text-gradient"></i>
+                Dashboard del Administrador
+            </h1>
+            <p class="text-center text-muted">Panel de control y gestión del sistema</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <!-- Card 1: Gestión de Usuarios -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column text-center">
+                    <div class="dashboard-icon primary mx-auto">
+                        <i class="bi bi-people" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Gestión de Usuarios</h5>
+                    <p class="card-text text-muted flex-grow-1">Administra usuarios y roles del sistema.</p>
+                    <a href="/admin/usuarios" class="btn btn-primary">
+                        <i class="bi bi-person-gear me-2"></i>Gestionar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2: Gestión de Gastos e Ingresos -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column text-center">
+                    <div class="dashboard-icon success mx-auto">
+                        <i class="bi bi-wallet2" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Gastos e Ingresos</h5>
+                    <p class="card-text text-muted flex-grow-1">Edita y administra todas las transacciones.</p>
+                    <a href="/admin/transacciones" class="btn btn-success">
+                        <i class="bi bi-pencil-square me-2"></i>Administrar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3: Reportes Generales -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column text-center">
+                    <div class="dashboard-icon info mx-auto">
+                        <i class="bi bi-graph-up-arrow" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Reportes Generales</h5>
+                    <p class="card-text text-muted flex-grow-1">Tráfico y estadísticas del sistema.</p>
+                    <a href="/admin/reportes" class="btn btn-info">
+                        <i class="bi bi-bar-chart me-2"></i>Ver Reportes
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4: Consolidado por Usuario -->
+        <div class="col-lg-3 col-md-6">
+            <div class="card h-100">
+                <div class="card-body d-flex flex-column text-center">
+                    <div class="dashboard-icon warning mx-auto">
+                        <i class="bi bi-person-lines-fill" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Consolidado</h5>
+                    <p class="card-text text-muted flex-grow-1">Resumen financiero por usuario.</p>
+                    <a href="/admin/consolidado" class="btn btn-warning">
+                        <i class="bi bi-table me-2"></i>Ver Consolidado
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<%- include('partials/footer') %>

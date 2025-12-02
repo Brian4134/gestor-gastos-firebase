@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container mt-4">
+    <h2><i class="bi bi-person-lines-fill me-2"></i>Consolidado por Usuario</h2>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            <th>Transacciones</th>
+                            <th>Ingresos</th>
+                            <th>Gastos</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% consolidado.forEach(c => { %>
+                        <tr>
+                            <td><%= c.usuario %></td>
+                            <td><%= c.email %></td>
+                            <td><%= c.totalTransacciones %></td>
+                            <td class="text-success">S/ <%= c.totalIngresos.toFixed(2) %></td>
+                            <td class="text-danger">S/ <%= c.totalGastos.toFixed(2) %></td>
+                            <td class="<%= c.balance >= 0 ? 'text-success' : 'text-danger' %>">
+                                S/ <%= c.balance.toFixed(2) %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

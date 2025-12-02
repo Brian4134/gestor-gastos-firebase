@@ -1,0 +1,114 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container mt-4">
+    <h2><i class="bi bi-wallet2 me-2"></i>Gestión de Transacciones</h2>
+    
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-arrow-down-circle me-2 text-danger"></i>Categorías de Gastos</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group mb-3" id="categoriasGastos">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Alimentación
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('gasto', 'Alimentación')">×</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Transporte
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('gasto', 'Transporte')">×</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Vivienda
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('gasto', 'Vivienda')">×</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Entretenimiento
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('gasto', 'Entretenimiento')">×</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Salud
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('gasto', 'Salud')">×</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Educación
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('gasto', 'Educación')">×</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Otros
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('gasto', 'Otros')">×</button>
+                        </li>
+                    </ul>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="nuevaCategoriaGasto" placeholder="Nueva categoría de gasto">
+                        <button class="btn btn-success" onclick="agregarCategoria('gasto')">
+                            <i class="bi bi-plus"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-arrow-up-circle me-2 text-success"></i>Categorías de Ingresos</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group mb-3" id="categoriasIngresos">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Salario
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('ingreso', 'Salario')">×</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Freelance
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('ingreso', 'Freelance')">×</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Inversiones
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('ingreso', 'Inversiones')">×</button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Otros Ingresos
+                            <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('ingreso', 'Otros Ingresos')">×</button>
+                        </li>
+                    </ul>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="nuevaCategoriaIngreso" placeholder="Nueva categoría de ingreso">
+                        <button class="btn btn-success" onclick="agregarCategoria('ingreso')">
+                            <i class="bi bi-plus"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+
+<script>
+function agregarCategoria(tipo) {
+    const input = document.getElementById(`nuevaCategoria${tipo === 'gasto' ? 'Gasto' : 'Ingreso'}`);
+    const categoria = input.value.trim();
+    if (!categoria) return;
+    
+    const lista = document.getElementById(`categorias${tipo === 'gasto' ? 'Gastos' : 'Ingresos'}`);
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-center';
+    li.innerHTML = `
+        ${categoria}
+        <button class="btn btn-sm btn-danger" onclick="eliminarCategoria('${tipo}', '${categoria}')">×</button>
+    `;
+    lista.appendChild(li);
+    input.value = '';
+}
+
+function eliminarCategoria(tipo, categoria) {
+    if (confirm(`¿Eliminar la categoría "${categoria}"?`)) {
+        event.target.parentElement.remove();
+    }
+}
+</script>
+<%- include('../partials/footer') %>
