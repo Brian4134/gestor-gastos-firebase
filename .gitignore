@@ -21,3 +21,10 @@ logs/
 .idea/
 *.swp
 *.swo
+
+# Capacitor
+www/
+android/
+ios/
+.capacitor/
+dist/

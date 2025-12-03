@@ -1,0 +1,12 @@
+android/
+www/
+node_modules/
+.env
+firebase-credentials.json
+*.log
+.DS_Store
+.vscode/
+migrate-data.js
+generate-apk.*
+install-android-sdk.bat
+APK_GENERATION.md
