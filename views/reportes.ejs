@@ -13,47 +13,50 @@
     </div>
 
     <!-- Summary Cards -->
-    <div class="row g-4 mb-5">
-        <div class="col-lg-4 col-md-6">
+    <div class="row g-3 g-md-4 mb-4 mb-md-5">
+        <div class="col-12 col-sm-6 col-lg-4">
             <div class="card text-white h-100" style="background: linear-gradient(135deg, var(--success-color) 0%, #047857 100%);">
-                <div class="card-body d-flex align-items-center">
-                    <div class="me-3">
-                        <i class="bi bi-arrow-up-circle" style="font-size: 2.5rem;"></i>
+                <div class="card-body d-flex align-items-center p-3">
+                    <div class="me-2 me-md-3">
+                        <i class="bi bi-arrow-up-circle" style="font-size: 2rem;"></i>
                     </div>
-                    <div>
-                        <h6 class="card-title mb-1 opacity-75">Total Ingresos</h6>
-                        <h2 class="mb-0 fw-bold">S/ <%= (totalIngresos || 0).toFixed(2) %></h2>
+                    <div class="flex-grow-1">
+                        <h6 class="card-title mb-1 opacity-75 small">Total Ingresos</h6>
+                        <h4 class="mb-0 fw-bold d-block d-sm-none">S/ <%= (totalIngresos || 0).toFixed(0) %></h4>
+                        <h3 class="mb-0 fw-bold d-none d-sm-block">S/ <%= (totalIngresos || 0).toFixed(2) %></h3>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6">
+        <div class="col-12 col-sm-6 col-lg-4">
             <div class="card text-white h-100" style="background: linear-gradient(135deg, var(--danger-color) 0%, #b91c1c 100%);">
-                <div class="card-body d-flex align-items-center">
-                    <div class="me-3">
-                        <i class="bi bi-arrow-down-circle" style="font-size: 2.5rem;"></i>
+                <div class="card-body d-flex align-items-center p-3">
+                    <div class="me-2 me-md-3">
+                        <i class="bi bi-arrow-down-circle" style="font-size: 2rem;"></i>
                     </div>
-                    <div>
-                        <h6 class="card-title mb-1 opacity-75">Total Gastos</h6>
-                        <h2 class="mb-0 fw-bold">S/ <%= (totalGastos || 0).toFixed(2) %></h2>
+                    <div class="flex-grow-1">
+                        <h6 class="card-title mb-1 opacity-75 small">Total Gastos</h6>
+                        <h4 class="mb-0 fw-bold d-block d-sm-none">S/ <%= (totalGastos || 0).toFixed(0) %></h4>
+                        <h3 class="mb-0 fw-bold d-none d-sm-block">S/ <%= (totalGastos || 0).toFixed(2) %></h3>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12">
+        <div class="col-12 col-sm-12 col-lg-4">
             <% 
                 const balance = (totalIngresos || 0) - (totalGastos || 0);
                 const balanceClass = balance >= 0 ? 'var(--info-color)' : 'var(--warning-color)';
                 const balanceIcon = balance >= 0 ? 'bi-wallet2' : 'bi-exclamation-triangle';
             %>
             <div class="card text-white h-100" style="background: linear-gradient(135deg, <%= balanceClass %> 0%, <%= balance >= 0 ? '#0e7490' : '#c2410c' %> 100%);">
-                <div class="card-body d-flex align-items-center">
-                    <div class="me-3">
-                        <i class="bi <%= balanceIcon %>" style="font-size: 2.5rem;"></i>
+                <div class="card-body d-flex align-items-center p-3">
+                    <div class="me-2 me-md-3">
+                        <i class="bi <%= balanceIcon %>" style="font-size: 2rem;"></i>
                     </div>
-                    <div>
-                        <h6 class="card-title mb-1 opacity-75">Balance</h6>
-                        <h2 class="mb-0 fw-bold">S/ <%= balance.toFixed(2) %></h2>
+                    <div class="flex-grow-1">
+                        <h6 class="card-title mb-1 opacity-75 small">Balance</h6>
+                        <h4 class="mb-0 fw-bold d-block d-sm-none">S/ <%= balance.toFixed(0) %></h4>
+                        <h3 class="mb-0 fw-bold d-none d-sm-block">S/ <%= balance.toFixed(2) %></h3>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,11 @@ import session from "express-session";
 import gastoRoutes from "./src/routes/gastoRoutes.js";
 import flash from "connect-flash";
 
+// Set NODE_ENV for Vercel
+if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'production';
+}
+
 // Necesario para usar __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,9 +43,9 @@ app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.user = req.session.usuario ? { id: req.session.usuario, rol: req.session.rol, nombre: req.session.nombreUsuario } : null;
     res.locals.firebaseConfig = {
-        apiKey: process.env.FIREBASE_API_KEY,
-        authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-        projectId: process.env.FIREBASE_PROJECT_ID
+        apiKey: process.env.FIREBASE_API_KEY || 'demo-key',
+        authDomain: process.env.FIREBASE_AUTH_DOMAIN || 'demo.firebaseapp.com',
+        projectId: process.env.FIREBASE_PROJECT_ID || 'demo-project'
     };
     next();
 });
@@ -52,11 +57,30 @@ app.get("/", (req, res) => {
 // Rutas del sistema
 app.use("/", gastoRoutes);
 
-// Servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en puerto ${PORT}`);
+// Manejo de errores
+app.use((err, req, res, next) => {
+    console.error('Error del servidor:', err);
+    res.status(500).render('error', { 
+        error: 'Error en el servidor. Intente nuevamente.',
+        details: process.env.NODE_ENV === 'development' ? err.message : null
+    });
 });
 
-// Exportar para Vercel
+// 404 handler
+app.use((req, res) => {
+    res.status(404).render('error', { 
+        error: 'Página no encontrada',
+        details: null
+    });
+});
+
+// Servidor
+const PORT = process.env.PORT || 3000;
+
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
+}
+
 export default app;

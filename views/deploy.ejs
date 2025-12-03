@@ -1,0 +1,86 @@
+<%- include('partials/header') %>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="mb-0">
+                        <i class="bi bi-cloud-check me-2"></i>
+                        Aplicación Desplegada
+                    </h3>
+                </div>
+                <div class="card-body text-center p-5">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="text-primary mb-3">Código QR - Acceso Directo</h5>
+                            <div class="mb-4">
+                                <img src="<%= qrDataUrl %>" alt="QR Code" class="img-fluid border rounded shadow" style="max-width: 200px;">
+                            </div>
+                            <p class="text-muted small">Escanea para acceder desde móvil</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-info mb-3">URL de la Aplicación</h5>
+                            <div class="alert alert-light border">
+                                <code><%= url %></code>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a href="<%= url %>" target="_blank" class="btn btn-primary">
+                                    <i class="bi bi-box-arrow-up-right me-2"></i>
+                                    Abrir Aplicación
+                                </a>
+                                <button class="btn btn-outline-secondary" onclick="copyUrl()">
+                                    <i class="bi bi-clipboard me-2"></i>
+                                    Copiar URL
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <div class="row text-start">
+                        <div class="col-md-6">
+                            <h6 class="text-success">✅ Características:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Autenticación Firebase</li>
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Login con Google</li>
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Gestión de gastos</li>
+                                <li><i class="bi bi-check-circle text-success me-2"></i>Reportes y gráficos</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="text-info">🚀 Tecnologías:</h6>
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-dot"></i>Node.js + Express</li>
+                                <li><i class="bi bi-dot"></i>Firebase Firestore</li>
+                                <li><i class="bi bi-dot"></i>Bootstrap 5</li>
+                                <li><i class="bi bi-dot"></i>Chart.js</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyUrl() {
+    navigator.clipboard.writeText('<%= url %>').then(() => {
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check me-2"></i>¡Copiado!';
+        btn.classList.remove('btn-outline-secondary');
+        btn.classList.add('btn-success');
+        
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.classList.remove('btn-success');
+            btn.classList.add('btn-outline-secondary');
+        }, 2000);
+    });
+}
+</script>
+
+<%- include('partials/footer') %>

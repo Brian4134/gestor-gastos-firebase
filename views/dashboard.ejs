@@ -12,71 +12,143 @@
         </div>
     </div>
 
-    <div class="row g-4 mb-5">
-        <!-- Card 1: Gestión de Usuarios -->
-        <div class="col-lg-3 col-md-6">
+    <div class="row g-3 g-md-4 mb-4 mb-md-5">
+        <!-- Card 1: Transacciones -->
+        <div class="col-12 col-sm-6 col-lg-4">
             <div class="card h-100">
-                <div class="card-body d-flex flex-column text-center">
+                <div class="card-body d-flex flex-column text-center p-3 p-md-4">
                     <div class="dashboard-icon primary mx-auto">
-                        <i class="bi bi-people" style="font-size: 1.5rem;"></i>
+                        <i class="bi bi-list-ul" style="font-size: 1.5rem;"></i>
                     </div>
-                    <h5 class="card-title fw-bold">Gestión de Usuarios</h5>
-                    <p class="card-text text-muted flex-grow-1">Administra usuarios y roles del sistema.</p>
-                    <a href="/admin/usuarios" class="btn btn-primary">
-                        <i class="bi bi-person-gear me-2"></i>Gestionar
+                    <h5 class="card-title fw-bold mb-2">Transacciones</h5>
+                    <p class="card-text text-muted flex-grow-1 small">Administra gastos e ingresos del sistema.</p>
+                    <a href="/index" class="btn btn-primary btn-sm">
+                        <i class="bi bi-eye me-1"></i><span class="d-none d-sm-inline">Ver </span>Transacciones
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- Card 2: Gestión de Gastos e Ingresos -->
-        <div class="col-lg-3 col-md-6">
+        <!-- Card 2: Nueva Transacción -->
+        <div class="col-12 col-sm-6 col-lg-4">
             <div class="card h-100">
-                <div class="card-body d-flex flex-column text-center">
+                <div class="card-body d-flex flex-column text-center p-3 p-md-4">
                     <div class="dashboard-icon success mx-auto">
-                        <i class="bi bi-wallet2" style="font-size: 1.5rem;"></i>
+                        <i class="bi bi-plus-circle" style="font-size: 1.5rem;"></i>
                     </div>
-                    <h5 class="card-title fw-bold">Gastos e Ingresos</h5>
-                    <p class="card-text text-muted flex-grow-1">Edita y administra todas las transacciones.</p>
-                    <a href="/admin/transacciones" class="btn btn-success">
-                        <i class="bi bi-pencil-square me-2"></i>Administrar
-                    </a>
+                    <h5 class="card-title fw-bold mb-2">Nueva Transacción</h5>
+                    <p class="card-text text-muted flex-grow-1 small">Registra gastos o ingresos rápidamente.</p>
+                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalNuevaTransaccion">
+                        <i class="bi bi-plus me-1"></i><span class="d-none d-sm-inline">Crear </span>Transacción
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Card 3: Reportes Generales -->
-        <div class="col-lg-3 col-md-6">
+        <!-- Card 3: Reportes -->
+        <div class="col-12 col-sm-12 col-lg-4">
             <div class="card h-100">
-                <div class="card-body d-flex flex-column text-center">
+                <div class="card-body d-flex flex-column text-center p-3 p-md-4">
                     <div class="dashboard-icon info mx-auto">
-                        <i class="bi bi-graph-up-arrow" style="font-size: 1.5rem;"></i>
+                        <i class="bi bi-bar-chart" style="font-size: 1.5rem;"></i>
                     </div>
-                    <h5 class="card-title fw-bold">Reportes Generales</h5>
-                    <p class="card-text text-muted flex-grow-1">Tráfico y estadísticas del sistema.</p>
-                    <a href="/admin/reportes" class="btn btn-info">
-                        <i class="bi bi-bar-chart me-2"></i>Ver Reportes
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card 4: Consolidado por Usuario -->
-        <div class="col-lg-3 col-md-6">
-            <div class="card h-100">
-                <div class="card-body d-flex flex-column text-center">
-                    <div class="dashboard-icon warning mx-auto">
-                        <i class="bi bi-person-lines-fill" style="font-size: 1.5rem;"></i>
-                    </div>
-                    <h5 class="card-title fw-bold">Consolidado</h5>
-                    <p class="card-text text-muted flex-grow-1">Resumen financiero por usuario.</p>
-                    <a href="/admin/consolidado" class="btn btn-warning">
-                        <i class="bi bi-table me-2"></i>Ver Consolidado
+                    <h5 class="card-title fw-bold mb-2">Reportes</h5>
+                    <p class="card-text text-muted flex-grow-1 small">Visualiza estadísticas y gráficos.</p>
+                    <a href="/reportes" class="btn btn-info btn-sm">
+                        <i class="bi bi-graph-up me-1"></i><span class="d-none d-sm-inline">Ver </span>Reportes
                     </a>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Charts Row -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-pie-chart me-2"></i>Gastos por Categoría
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div style="height: 300px; position: relative;">
+                        <canvas id="gastosDashboardChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const gastosData = <%- JSON.stringify(gastosPorCategoria || []) %>;
+
+    if (gastosData.length > 0) {
+        const gastosLabels = gastosData.map(d => d.categoria);
+        const gastosValues = gastosData.map(d => parseFloat(d.total));
+
+        const ctx = document.getElementById('gastosDashboardChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: gastosLabels,
+                    datasets: [{
+                        data: gastosValues,
+                        backgroundColor: [
+                            '#2563eb', '#059669', '#d97706', '#dc2626',
+                            '#7c3aed', '#0891b2', '#be185d', '#059669'
+                        ],
+                        borderWidth: 0,
+                        hoverBorderWidth: 2,
+                        hoverBorderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: window.innerWidth < 768 ? 'bottom' : 'right',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: {
+                                    size: window.innerWidth < 768 ? 10 : 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': S/ ' + context.parsed.toFixed(2);
+                                }
+                            }
+                        }
+                    },
+                    layout: {
+                        padding: 10
+                    }
+                }
+            });
+        }
+    } else {
+        const container = document.getElementById('gastosDashboardChart').parentElement;
+        container.innerHTML = `
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 text-muted">
+                <i class="bi bi-pie-chart" style="font-size: 3rem; opacity: 0.3;"></i>
+                <p class="mt-3 mb-0">No hay datos de gastos para mostrar</p>
+                <small>Registra algunas transacciones para ver el gráfico</small>
+            </div>
+        `;
+    }
+});
+</script>
+
+<%- include('partials/modal_nueva_transaccion') %>
 
 </div>
 <%- include('partials/footer') %>

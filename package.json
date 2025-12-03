@@ -7,16 +7,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "vercel-build": "echo 'Build complete'",
-    "migrate": "node migrate-data.js",
-    "build": "npm run build:web",
-    "build:web": "node build-web.js",
-    "cap:init": "npx cap init",
-    "cap:add:android": "npx cap add android",
-    "cap:sync": "npx cap sync",
-    "cap:build": "npm run build && npx cap sync",
-    "android:build": "npm run cap:build && npx cap open android",
-    "apk:build": "npm run build && npx cap sync && cd android && ./gradlew assembleDebug"
+    "build": "echo 'Build complete'",
+    "vercel-build": "echo 'Vercel build complete'",
+    "migrate": "node migrate-data.js"
   },
   "devDependencies": {
     "@capacitor/android": "^5.7.8",
@@ -33,6 +26,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.2",
     "firebase-admin": "^12.0.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "qrcode": "^1.5.4"
   }
 }
