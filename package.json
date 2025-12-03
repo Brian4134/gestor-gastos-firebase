@@ -27,6 +27,7 @@
     "express-session": "^1.18.2",
     "firebase-admin": "^12.0.0",
     "jsonwebtoken": "^9.0.2",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "cookie-parser": "^1.4.6"
   }
 }

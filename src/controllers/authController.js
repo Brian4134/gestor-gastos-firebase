@@ -25,10 +25,24 @@ export const loginUsuario = async (req, res) => {
             return res.render("login", { error: "Usuario o contraseña incorrectos" });
         }
 
-        // Establecer sesión
-        req.session.usuario = user.id;
-        req.session.rol = user.rol;
-        req.session.nombreUsuario = user.nombre;
+        // Crear JWT token
+        const jwt = await import('jsonwebtoken');
+        const token = jwt.default.sign(
+            { 
+                userId: user.id, 
+                rol: user.rol, 
+                nombre: user.nombre 
+            }, 
+            process.env.SESSION_SECRET || 'fallback_secret',
+            { expiresIn: '7d' }
+        );
+        
+        // Establecer cookie con JWT
+        res.cookie('auth_token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 días
+        });
 
         // Redirigir según el rol
         res.redirect(user.rol === "admin" ? "/dashboard" : "/index");
@@ -68,13 +82,24 @@ export const loginConGoogle = async (req, res) => {
         });
         console.log('Usuario creado/actualizado:', user.id, user.rol);
 
-        // Establecer sesión
-        req.session.usuario = user.id;
-        req.session.rol = user.rol;
-        req.session.nombreUsuario = user.nombre;
+        // Crear JWT token
+        const jwt = await import('jsonwebtoken');
+        const token = jwt.default.sign(
+            { 
+                userId: user.id, 
+                rol: user.rol, 
+                nombre: user.nombre 
+            }, 
+            process.env.SESSION_SECRET || 'fallback_secret',
+            { expiresIn: '7d' }
+        );
         
-        console.log('Sesión establecida, redirigiendo...');
-        res.json({ success: true, redirect: user.rol === "admin" ? "/dashboard" : "/index" });
+        console.log('Token JWT creado, redirigiendo...');
+        res.json({ 
+            success: true, 
+            token,
+            redirect: user.rol === "admin" ? "/dashboard" : "/index" 
+        });
     } catch (error) {
         console.error("Error detallado en login con Google:", error);
         console.error("Stack trace:", error.stack);

@@ -3,6 +3,7 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import session from "express-session";
+import cookieParser from "cookie-parser";
 import gastoRoutes from "./src/routes/gastoRoutes.js";
 import flash from "connect-flash";
 
@@ -24,6 +25,7 @@ app.set("views", path.join(__dirname, "views"));
 // Middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Archivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
@@ -41,7 +43,21 @@ app.use(flash());
 app.use((req, res, next) => {
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
-    res.locals.user = req.session.usuario ? { id: req.session.usuario, rol: req.session.rol, nombre: req.session.nombreUsuario } : null;
+    
+    // Verificar JWT para datos del usuario
+    const token = req.cookies?.auth_token;
+    if (token) {
+        try {
+            const jwt = require('jsonwebtoken');
+            const decoded = jwt.verify(token, process.env.SESSION_SECRET || 'fallback_secret');
+            res.locals.user = { id: decoded.userId, rol: decoded.rol, nombre: decoded.nombre };
+        } catch (error) {
+            res.locals.user = null;
+        }
+    } else {
+        res.locals.user = null;
+    }
+    
     res.locals.firebaseConfig = {
         apiKey: process.env.FIREBASE_API_KEY || 'demo-key',
         authDomain: process.env.FIREBASE_AUTH_DOMAIN || 'demo.firebaseapp.com',
